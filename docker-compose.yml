@@ -1,0 +1,52 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    networks:
+      - backend
+  search:
+    image: elasticsearch:latest
+    environment:
+      ES_JAVA_OPTS: "-Xms750m -Xmx750m"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - backend
+  redis:
+    image: redis
+    networks:
+      - backend
+  api:
+    build: .
+    command: ./bin/rails server
+    volumes:
+      - .:/channel-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+      - search
+    networks:
+      - backend
+
+  cable:
+    build: .
+    command: ./bin/cable
+    volumes:
+      - .:/channel-api
+    ports:
+      - "28080:28080"
+    depends_on:
+      - db
+      - redis
+      - search
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
