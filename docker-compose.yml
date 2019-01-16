@@ -19,7 +19,7 @@ services:
     image: redis
     networks:
       - backend
-  api:
+  web:
     build: .
     command: ./bin/rails server
     volumes:
@@ -32,7 +32,6 @@ services:
       - search
     networks:
       - backend
-
   cable:
     build: .
     command: ./bin/cable
@@ -46,7 +45,15 @@ services:
       - search
     networks:
       - backend
-
+  harvester:
+    build: ./harvester
+    volumes:
+      - ./harvester:/harvester
+    depends_on:
+      - web
+      - cable
+    networks:
+      - backend
 networks:
   backend:
     driver: bridge
