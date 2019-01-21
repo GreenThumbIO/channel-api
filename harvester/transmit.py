@@ -22,12 +22,12 @@ subscription.on_receive(callback=on_receive)
 subscription.connection.send({
     'command':'message',
     'identifier': json.dumps({'channel':'DeviceChannel'}),
-    'data':json.dumps({'action':'message','message':"Time: " + str(time.time())})
+    'data':json.dumps({'device_id':1,'action':'message','message':"Time: " + str(time.time())})
     })
 
 ser = serial.Serial(list_ports.comports()[1].device, 9600)
+
 while True:
-    time.sleep(1)
     reading = ser.readline().decode("utf-8")
     print(reading)
     subscription.connection.send({

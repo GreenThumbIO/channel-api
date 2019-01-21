@@ -45,6 +45,18 @@ services:
       - search
     networks:
       - backend
+  worker:
+    build: .
+    command: sidekiq
+    volumes:
+      - .:/channel-api
+    depends_on:
+      - db
+      - redis
+      - search
+      - cable
+    networks:
+      - backend
   harvester:
     build: ./harvester
     volumes:

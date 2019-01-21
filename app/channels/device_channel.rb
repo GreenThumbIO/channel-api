@@ -9,9 +9,7 @@ class DeviceChannel < ApplicationCable::Channel
   end
 
   def message(data)
-    # Transmission.create! text: data['message'], device_id: data['device_id']
-    Rails.logger.debug "Message Received: #{data['message']}"
-    ActionCable.server.broadcast "device_channel_#{data[:device_id]}",
-      message: data['message']
+    Transmission.create! message: data['message'], device_id: data['device_id']
+    Rails.logger.debug "Message Received #{data[:device_id]}: #{data['message']}"
   end
 end
