@@ -1,24 +1,17 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## DEPENDENCIES
 
-Things you may want to cover:
+### Install Docker Compose
 
-* Ruby version
+## Build the images
+`docker-compose build`
 
-* System dependencies
+## Run the containers
+`docker-compose up`
 
-* Configuration
+## Transmit data
+`docker-compose run harvester /bin/bash`
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Check the logs
+`docker-compose run cable tail -f log/development.log`
